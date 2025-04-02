@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Tree View -->
+    <record id="view_hotel_guests_tree" model="ir.ui.view">
+        <field name="name">hotel.guests.tree</field>
+        <field name="model">hotel.guests</field>
+        <field name="arch" type="xml">
+            <tree string="Hotel Guests">
+                <field name="name"/>
+                <field name="birthdate"/>
+                <field name="age" readonly="1"/>
+                <field name="contactno"/>
+                <field name="email"/>
+                <field name="address_city"/>
+                <field name="address_province"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_hotel_guests_form" model="ir.ui.view">
+        <field name="name">hotel.guests.form</field>
+        <field name="model">hotel.guests</field>
+        <field name="arch" type="xml">
+            <form string="Hotel Guest">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="lastname"/>
+                            <field name="firstname"/>
+                            <field name="middlename"/>
+                            <field name="birthdate"/>
+                            <field name="age" readonly="1"/>
+                            <field name="contactno"/>
+                            <field name="email"/>
+                        </group>
+                        <group>
+                            <field name="address_streetno"/>
+                            <field name="address_area"/>
+                            <field name="address_city"/>
+                            <field name="address_province"/>
+                            <field name="zipcode"/>
+                        </group>
+                        <group>
+                            <field name="gender"/>
+                            <field name="photo" widget="image"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+  <!-- Action for Guests -->
+  <record id="action_hotel_guests" model="ir.actions.act_window">
+      <field name="name">Guests</field>
+      <field name="res_model">hotel.guests</field>
+      <field name="view_mode">tree,form</field>
+      <field name="help" type="html">
+          <p>
+              Manage hotel guests' information.
+          </p>
+      </field>
+  </record>
+
+  <!-- Menu Items -->
+  <menuitem id="menu_hotel_guests" name="Guests"
+            parent="hotel_menu_masterlists"
+            action="action_hotel_guests"/>   
+            
+</odoo>
