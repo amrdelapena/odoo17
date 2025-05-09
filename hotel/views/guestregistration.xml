@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!-- List View: Guest Registration -->
+  <record id="view_guestregistration_list" model="ir.ui.view">
+    <field name="name">hotel.guestregistration.list</field>
+    <field name="model">hotel.guestregistration</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="name"/>
+        <field name="roomname"/>
+        <field name="guestname"/>
+        <field name="datecreated"/>
+        <field name="datefromSched"/>
+        <field name="datetoSched"/>
+        <field name="state"/>
+      </list>
+    </field>
+  </record>
+
+  <!-- Form View: Guest Registration -->
+  <record id="view_guestregistration_form" model="ir.ui.view">
+    <field name="name">hotel.guestregistration.form</field>
+    <field name="model">hotel.guestregistration</field>
+    <field name="arch" type="xml">
+      <form string="Guest Registration">
+        <header>
+          <!-- Changed from states="draft" to visible="state == 'draft'" -->
+          <button name="action_reserve"
+                  string="Reserve"
+                  type="object"
+                  class="btn-primary"
+                  confirm="Tag registration as RESERVED?"
+                  groups="base.group_user"
+                  visible="state == 'draft'"/>
+
+          <!-- Changed from states="reserved,checkedin,checkedout" to visible="state in ['reserved', 'checkedin', 'checkedout']" -->
+          <button name="action_checkin"
+                  string="Check IN"
+                  type="object"
+                  class="btn-primary"
+                  confirm="Tag registration as CHECKED IN?"
+                  visible="state in ['reserved', 'checkedin', 'checkedout']"/>
+
+          <!-- Changed from states="checkedin" to visible="state == 'checkedin'" -->
+          <button name="action_checkout"
+                  string="Check OUT"
+                  type="object"
+                  class="btn-primary"
+                  confirm="Tag registration as CHECKED OUT?"
+                  visible="state == 'checkedin'"/>
+
+          <!-- Changed from states="draft,reserved" to visible="state in ['draft', 'reserved']" -->
+          <button name="action_cancel"
+                  string="Cancel"
+                  type="object"
+                  class="btn-secondary"
+                  confirm="Tag registration as CANCELLED?"
+                  visible="state in ['draft', 'reserved']"/>
+
+          <!-- Statusbar field remains the same -->
+          <field name="state" widget="statusbar" statusbar_visible="DRAFT,RESERVED,CHECKEDIN,CHECKEDOUT,CANCELLED" nolabel="1"/>
+        </header>
+
+        <sheet>
+          <group>
+            <field name="name" readonly="state != 'DRAFT'" eval="True"/>
+            <field name="room_id" readonly="state != 'DRAFT'" eval="True"/>
+            <field name="guest_id" readonly="state != 'DRAFT'" eval="True"/>
+            <field name="datecreated" readonly="state != 'DRAFT'" eval="True"/>
+          </group>
+          <group>
+            <field name="datefromSched" readonly="state != 'DRAFT'" eval="True"/>
+            <field name="datetoSched" readonly="state != 'DRAFT'" eval="True"/>
+            <field name="datefromAct" readonly="state != 'DRAFT'" eval="True"/>
+            <field name="datetoAct" readonly="state != 'DRAFT'" eval="True"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <!-- Action: Guest Registration List -->
+  <record id="action_guest_registration" model="ir.actions.act_window">
+    <field name="name">Guest Registration</field>
+    <field name="res_model">hotel.guestregistration</field>
+    <field name="view_mode">list,form</field>
+    <field name="help" type="html">
+      <p class="o_view_nocontent_smiling_face">
+        Create your first guest registration.
+      </p>
+    </field>
+  </record>
+
+  <!-- Menu Item -->
+  <menuitem id="hotel_menu_guestregistration"
+            name="Guest Registration"
+            parent="hotel_menu_masterlists"
+            action="action_guest_registration"
+            sequence="20"/>
+
+</odoo>
